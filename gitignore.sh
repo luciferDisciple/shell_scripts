@@ -18,7 +18,8 @@ print_help() {
 	https://github.com/github/gitignore.git
 	
 	positional arguments:
-	  LANG        language or framework that you want to get a .gitignore for
+	  LANG         language or framework name that you want to get a
+	               .gitignore for
 	
 	optional arguments:
 	  -h, --help   show this help message and exit
@@ -36,6 +37,13 @@ usage_error() {
 	local message="$@"
 	usage
 	error "$message"
+}
+
+ensure_git_installed() {
+	if ! which git &>/dev/null; then
+		error "Required 'git' program is not available on the system."\
+		      "Install it."
+	fi
 }
 
 ensure_data_dir() {
@@ -58,6 +66,7 @@ list_available_gitignores() {
 		column
 }
 
+ensure_git_installed
 ensure_local_repo
 
 while :; do
@@ -99,4 +108,4 @@ if [[ ! -r "$source_gitignore_file" ]]; then
 	error "no .gitignore available for '$language'"
 fi
 
-cp "$source_gitignore_file" gitignore
+cp "$source_gitignore_file" .gitignore
