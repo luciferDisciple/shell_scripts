@@ -39,13 +39,6 @@ echo_prompt() {
 	echo "[$USER@$HOSTNAME $PWD]\$ $1"
 }
 
-pretty_print_array() {
-	local -n array=$1
-	local joined_string
-	printf -v joined_string '%s, ' "${array[@]}"
-	echo -n "${result%, }"
-}
-
 array_to_string() {
 	local -n array=$1
 	declare -n joined_string=$2
