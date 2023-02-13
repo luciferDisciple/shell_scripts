@@ -6,7 +6,7 @@ DATA_HOME="$XDG_DATA_HOME"/luciferdisciple/gitignore
 REPO_DIR="$DATA_HOME/gitignore"
 
 usage() {
-	echo "usage: $PROG [-h|--help] LANG" >&2
+	echo "usage: $PROG [-h] [--list] LANG" >&2
 }
 
 print_help() {
@@ -22,6 +22,7 @@ print_help() {
 	
 	optional arguments:
 	  -h, --help   show this help message and exit
+	  --list       print valid values for LANG argument and exit
 	END
 }
 
@@ -50,10 +51,23 @@ ensure_local_repo() {
 	fi
 }
 
+list_available_gitignores() {
+	(cd $REPO_DIR && find . -maxdepth 1 -name '*.gitignore') |
+		sed 's:^[.]/::; s/[.]gitignore$//' |
+		sort |
+		column
+}
+
+ensure_local_repo
+
 while :; do
 	case "$1" in
 		-h|--help)
 			print_help
+			exit
+			;;
+		--list)
+			list_available_gitignores
 			exit
 			;;
 		-*)
@@ -78,8 +92,6 @@ fi
 # massage "language" argument
 language=${language,,}  # lowercase all characters
 language=${language^}   # uppercase first character
-
-ensure_local_repo
 
 source_gitignore_file="$REPO_DIR/$language.gitignore"
 
