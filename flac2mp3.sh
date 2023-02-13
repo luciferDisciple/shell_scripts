@@ -1,38 +1,78 @@
 #!/bin/bash
 
-prog_name=${0##*/}
+PROG=flac2mp3
 
 usage () {
-	echo "Usage: $prog_name FILE..."
-	echo "       $prog_name [-h|--help]"
-	echo "Transcode flac FILEs into mp3 files while keeping the tags."
-	echo "Audio in the output files will have an avarage bitrate of 190kb/s."
-} >&2
+	echo >&2 "usage: $PROG [-h] FLAC [FLAC...]"
+}
 
-die () { printf >&2 '[%s] Error. %s\n' "$prog_name" "$*" ; exit 1; }
+print_help() {
+	usage
+	cat >&2 <<-END
+	
+	Transcode flac FILEs into mp3 files while preserving the tags. Audio in the
+	output files will have the average bitrate of 190kb/s.
+	
+	positional arguments:
+	  FLAC          path to an audio file in flac format
+	
+	optional arguments:
+	  -h, --help    show this help and exit
+	END
+}
 
-info () { printf >&2 '[%s] %s\n' "$prog_name" "$*";}
+error() {
+	local message="$@"
+	echo "$PROG: error: $message" >&2
+	exit 1
+}
 
-[[ $# -eq 0 ]] && usage && die Wrong number of arguments.
+usage_error() {
+	local message="$@"
+	usage
+	error "$message"
+}
 
-[[ "$1" == "--help" || "$1" == "-h" ]] && usage && exit 0
+info() {
+	local message="$@"
+	echo "$PROG: $message" >&2
+}
 
-input_files=("$@")
-
-for fname in "${input_files[@]}"; do
-	[[ -f "$fname" ]] || die "'$fname': no such file"
+while :; do
+	case "$1" in
+		-h|--help)
+			print_help
+			exit
+			;;
+		-*)
+			usage_error unrecognized option: "$1"
+			;;
+		*)
+			break
+	esac
+	shift
 done
-
-for in_fname in "${input_files[@]}"; do
-	in_basename=${in_fname%.*}
-	out_fname="${in_basename}.mp3"
-	[[ -f "$out_fname" ]] && die "File '$out_fname' already exists."
-	info "Converting '${in_fname}'"
+flac_files=("$@")
+if (( ${#flac_files[@]} == 0 )); then 
+	usage_error 'the following arguments are required: FLAC'
+fi
+for flac_file in "${flac_files[@]}"; do
+	[[ -f "$flac_file" ]] || error "can't read '$flac': no such file or directory"
+done
+declare -i i=1
+declare -i total_count="${#flac_files[@]}"
+for flac_file in "${flac_files[@]}"; do
+	flac_basename=${flac_file%.*}
+	mp3_file="${flac_basename}.mp3"
+	[[ -f "$mp3_file" ]] && error "File '$mp3_file' already exists."
+	info "converting file $i of $total_count: '${flac_file}'"
 	ffmpeg -hide_banner \
-		-i "${in_fname}" \
+		-loglevel warning \
+		-i "${flac_file}" \
 		-c:a libmp3lame \
 		-q:a 2 \
 		-map_metadata 0 \
 		-id3v2_version 3 \
-		"${out_fname}"
+		"${mp3_file}"
+	i+=1
 done
