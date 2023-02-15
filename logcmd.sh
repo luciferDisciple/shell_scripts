@@ -39,11 +39,13 @@ echo_prompt() {
 	echo "[$USER@$HOSTNAME $PWD]\$ $1"
 }
 
-join_with_commas() {
-	local -a array=("$@")
-	printf '%s' "${array[0]}"
-	(( ${#array[@]} < 2 )) && return
-	printf ', %s' "${array[@]:1}"
+join_words() {
+	printf '%s' "$1"
+	shift
+	if (( $# != 0 )); then
+	    printf ', %s' "$@"
+	fi
+	echo
 }
 
 while :; do
@@ -53,7 +55,7 @@ while :; do
 			exit
 			;;
 		-*)
-			usage_error unrecognized option: "$1"
+			usage_error "unrecognized option: $1"
 			;;
 		*)
 			break
@@ -66,7 +68,7 @@ declare -a missing_args
 [[ -z "$cmd" ]] && missing_args+=(COMMAND)
 [[ -z "$logfile" ]] && missing_args+=(LOGFILE)
 if (( ${#missing_args[@]} != 0 )); then
-	usage_error "the following arguments are required: $(join_with_commas "${missing_args[@]}")"
+	usage_error "the following arguments are required: $(join_words "${missing_args[@]}")"
 fi
 echo_prompt "$cmd" >>"$logfile"
 { eval "$cmd 2>&1" ; } | tee --append "$logfile"
