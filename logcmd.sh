@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PROG=logcmd
-VERSION=1.0.0
+VERSION=1.0.1
 
 usage() {
 	echo >&2 "usage: $PROG [-h] COMMAND LOGFILE"
@@ -53,7 +53,7 @@ join_words() {
 while :; do
 	case "$1" in
 		-h|--help)
-			show_help
+			print_help
 			exit
 			;;
 		-V|--version)
