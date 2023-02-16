@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PROG=flac2mp3
+VERSION=1.0.0
 
 usage () {
 	echo >&2 "usage: $PROG [-h] FLAC [FLAC...]"
@@ -17,7 +18,8 @@ print_help() {
 	  FLAC          path to an audio file in flac format
 	
 	optional arguments:
-	  -h, --help    show this help and exit
+	  -h, --help     show this help and exit
+	  -V, --version  output version information and exit
 	END
 }
 
@@ -43,6 +45,9 @@ while :; do
 		-h|--help)
 			print_help
 			exit
+			;;
+		-V|--version)
+			echo $VERSION && exit
 			;;
 		-*)
 			usage_error unrecognized option: "$1"

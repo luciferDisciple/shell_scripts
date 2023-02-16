@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PROG=gitignore
+VERSION=1.0.0
 XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 DATA_HOME="$XDG_DATA_HOME"/luciferdisciple/gitignore
 REPO_DIR="$DATA_HOME/gitignore"
@@ -22,8 +23,9 @@ print_help() {
 	               .gitignore for
 	
 	optional arguments:
-	  -h, --help   show this help message and exit
-	  --list       print valid values for LANG argument and exit
+	  -h, --help     show this help message and exit
+	  --list         print valid values for LANG argument and exit
+	  -V, --version  output version information and exit
 	END
 }
 
@@ -74,6 +76,9 @@ while :; do
 		-h|--help)
 			print_help
 			exit
+			;;
+		-V|--version)
+			echo $VERSION && exit
 			;;
 		--list)
 			list_available_gitignores

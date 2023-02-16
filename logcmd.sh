@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PROG=logcmd
+VERSION=1.0.0
 
 usage() {
 	echo >&2 "usage: $PROG [-h] COMMAND LOGFILE"
@@ -19,7 +20,8 @@ print_help() {
 	                appended to
 	
 	optional arguments:
-	  -h, --help    display this help and exit
+	  -h, --help     display this help and exit
+	  -V, --version  output version information and exit
 	END
 }
 
@@ -53,6 +55,9 @@ while :; do
 		-h|--help)
 			show_help
 			exit
+			;;
+		-V|--version)
+			echo $VERSION && exit
 			;;
 		-*)
 			usage_error "unrecognized option: $1"
