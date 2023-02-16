@@ -14,9 +14,9 @@ print_help() {
 	Add rendered subtitles directly onto the video stream of a video file.
 	
 	positional arguments:
-	  INFILE        source video file
-	  SUBFILE       file with subtitles for source video file
-	  OUTFILE       name of a file, where the result will be written to
+	  INPUT_FILE    source video file
+	  SUBS_FILE     file with subtitles for source video file
+	  OUTPUT_FILE   name of a file, where the result will be written to
 	
 	optional arguments:
 	  -h, --help     show this help and exit
@@ -64,11 +64,11 @@ while :; do
 done
 
 INPUT_FILE="$1"
-SUB_FILE="$2"
+SUBS_FILE="$2"
 OUTPUT_FILE="$3"
 declare -a missing_args=()
 [[ -z "$INPUT_FILE" ]] && missing_args+=('INPUT_FILE')
-[[ -z "$SUB_FILE" ]] && missing_args+=('SUB_FILE')
+[[ -z "$SUBS_FILE" ]] && missing_args+=('SUBS_FILE')
 [[ -z "$OUTPUT_FILE" ]] && missing_args+=('OUTPUT_FILE')
 if (( ${#missing_args[@]} != 0 )); then
 	usage_error "the following arguments are required: $(join_words "${missing_args[@]}")"
