@@ -4,7 +4,7 @@ PROG=flac2mp3
 VERSION=1.0.0
 
 usage () {
-	echo >&2 "usage: $PROG [-h] FLAC [FLAC...]"
+	echo >&2 "usage: $PROG [-h] [-V] FLAC [FLAC...]"
 }
 
 print_help() {

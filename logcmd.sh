@@ -4,7 +4,7 @@ PROG=logcmd
 VERSION=1.0.1
 
 usage() {
-	echo >&2 "usage: $PROG [-h] COMMAND LOGFILE"
+	echo >&2 "usage: $PROG [-h] [-V] COMMAND LOGFILE"
 }
 
 print_help() {

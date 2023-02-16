@@ -7,7 +7,7 @@ DATA_HOME="$XDG_DATA_HOME"/luciferdisciple/gitignore
 REPO_DIR="$DATA_HOME/gitignore"
 
 usage() {
-	echo "usage: $PROG [-h] [--list] LANG" >&2
+	echo "usage: $PROG [-h] [--list] [-V] LANG" >&2
 }
 
 print_help() {
@@ -24,7 +24,7 @@ print_help() {
 	
 	optional arguments:
 	  -h, --help     show this help message and exit
-	  --list         print valid values for LANG argument and exit
+	  --list        print valid values for LANG argument and exit
 	  -V, --version  output version information and exit
 	END
 }
