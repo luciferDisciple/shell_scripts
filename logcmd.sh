@@ -1,18 +1,18 @@
 #!/bin/bash
 
 PROG=logcmd
-VERSION=1.0.1
+VERSION=2.0.0
 
 usage() {
-	echo >&2 "usage: $PROG [-h] [-V] COMMAND LOGFILE"
+	echo >&2 "usage: $PROG [-h] [-V] COMMAND [COMMAND...] LOGFILE"
 }
 
 print_help() {
 	usage
 	cat >&2 <<-END
 	
-	Execute a COMMAND and save output to a LOGFILE.  Prompt and executed command are
-	also recorded in the LOGFILE.
+	Execute a COMMAND and save output to a file. Command prompts and commands will
+	be written to the LOGFILE.
 	
 	positional arguments:
 	  COMMAND       shell command, whose output will be captured
@@ -67,13 +67,19 @@ while :; do
 	esac
 	shift
 done
-cmd="$1"
-logfile="$2"
-declare -a missing_args
-[[ -z "$cmd" ]] && missing_args+=(COMMAND)
-[[ -z "$logfile" ]] && missing_args+=(LOGFILE)
+declare -a cmds=()
+while (( $# > 1 )); do
+	cmds+=("$1")
+	shift
+done
+logfile="$1"
+declare -a missing_args=()
+(( ${#cmds[@]} == 0 )) && missing_args+=(COMMAND)
+[[ -v "$logfile" ]] && missing_args+=(LOGFILE)
 if (( ${#missing_args[@]} != 0 )); then
 	usage_error "the following arguments are required: $(join_words "${missing_args[@]}")"
 fi
-echo_prompt "$cmd" >>"$logfile"
-{ eval "$cmd 2>&1" ; } | tee --append "$logfile"
+for cmd in "${cmds[@]}"; do
+	{ echo_prompt "$cmd" ; eval "$cmd 2>&1" ; } | tee --append "$logfile"
+done
+echo_prompt >>"$logfile"  # write final prompt with empty command line to LOGFILE

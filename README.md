@@ -48,10 +48,10 @@ $
 
 ```
 $ logcmd -h
-usage: logcmd [-h] [-V] COMMAND LOGFILE
+usage: logcmd [-h] [-V] COMMAND [COMMAND...] LOGFILE
 
-Execute a COMMAND and save output to a LOGFILE.  Prompt and executed command are
-also recorded in the LOGFILE.
+Execute a COMMAND and save output to a file. Command prompts and commands will
+be written to the LOGFILE.
 
 positional arguments:
   COMMAND       shell command, whose output will be captured
@@ -61,6 +61,17 @@ positional arguments:
 optional arguments:
   -h, --help     display this help and exit
   -V, --version  output version information and exit
+$ logcmd 'python -V' 'date --iso-8601=seconds' transcript.txt
+[root@nexus /root]$ python3.11 -V
+Python 3.11.2
+[root@nexus /root]$ date --iso-8601=seconds
+2023-02-18T22:12:27+01:00
+$ nl -n log.txt
+     1	[root@nexus /root]$ python3.11 -V
+     2	Python 3.11.2
+     3	[root@nexus /root]$ date --iso-8601=seconds
+     4	2023-02-18T22:12:27+01:00
+     5	[root@nexus /root]$ 
 $
 ```
 
