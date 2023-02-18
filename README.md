@@ -48,7 +48,7 @@ $
 
 ```
 $ logcmd -h
-usage: logcmd [-h] [-V] COMMAND [COMMAND...] LOGFILE
+usage: logcmd [-h] [-V] [-q] COMMAND [COMMAND...] LOGFILE
 
 Execute a COMMAND and save output to a file. Command prompts and commands will
 be written to the LOGFILE.
@@ -61,6 +61,7 @@ positional arguments:
 optional arguments:
   -h, --help     display this help and exit
   -V, --version  output version information and exit
+  -q, --quiet    print nothing to stdout, write only to LOGFILE
 $ logcmd 'python -V' 'date --iso-8601=seconds' transcript.txt
 [root@nexus /root]$ python3.11 -V
 Python 3.11.2
