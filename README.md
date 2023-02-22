@@ -4,6 +4,19 @@
 * [gitignore](#gitignore): Get .gitignore for a language/framework from github/gitignore.
 * [logcmd](#logcmd): Execute shell command. Save transcript.
 * [overlaysubs](#overlaysubs): Add subtitles onto the video stream.
+* [install.sh](#installsh): Install selected scripts for the user.
+
+## Installation
+
+Install selected scripts:
+```
+$ ./install.sh gitignore flac2mp3.sh
+```
+
+Install all scripts:
+```
+$ ./install.sh all
+```
 
 ## flac2mp3
 
@@ -88,6 +101,25 @@ positional arguments:
   INPUT_FILE    source video file
   SUBS_FILE     file with subtitles for source video file
   OUTPUT_FILE   name of a file, where the result will be written to
+
+optional arguments:
+  -h, --help     show this help and exit
+  -V, --version  output version information and exit
+$
+```
+
+## install.sh
+
+```
+$ ./install.sh -h
+usage: install.sh [-h] TARGET [TARGET...]
+       install.sh [-h] all
+
+Install selected scripts or all scripts for use by the current user
+only. Executables will be placed in ~/.local/bin/.
+
+positional arguments:
+  TARGET         script's name
 
 optional arguments:
   -h, --help     show this help and exit
