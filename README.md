@@ -93,7 +93,7 @@ $
 
 ```
 $ overlaysubs -h
-usage: overlaysubs [-h] [-V] INPUT_FILE SUBS_FILE OUTPUT_FILE
+usage: overlaysubs [-e POSITION] [-h] [-s POSITION] [-V] INPUT_FILE SUBS_FILE OUTPUT_FILE
 
 Add rendered subtitles directly onto the video stream of a video file.
 
@@ -103,7 +103,13 @@ positional arguments:
   OUTPUT_FILE   name of a file, where the result will be written to
 
 optional arguments:
+  -e, --end-at POSITION
+                 output just a part of the video, ending at specified moment
+                 in the input
   -h, --help     show this help and exit
+  -s, --start-at POSITION
+                 output just a part of the video, starting at the specified
+                 moment in the input
   -V, --version  output version information and exit
 $
 ```

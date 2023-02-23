@@ -1,5 +1,11 @@
 # Changelog
 
+## overlaysubs 1.1.0 - 2023-02-23
+
+### Added
+- `--start-at` and `--end-at` options: include only a part of the input video in
+  the output
+
 ## logcmd 2.1.0 - 2023-02-18
 
 ### Added

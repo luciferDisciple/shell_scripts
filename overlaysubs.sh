@@ -1,10 +1,10 @@
 #!/bin/bash
 
 PROG=overlaysubs
-VERSION=1.0.0
+VERSION=1.1.0
 
 usage() {
-	echo >&2 "usage: $PROG [-h] [-V] INPUT_FILE SUBS_FILE OUTPUT_FILE"
+	echo >&2 "usage: $PROG [-e POSITION] [-h] [-s POSITION] [-V] INPUT_FILE SUBS_FILE OUTPUT_FILE"
 }
 
 print_help() {
@@ -19,7 +19,13 @@ print_help() {
 	  OUTPUT_FILE   name of a file, where the result will be written to
 	
 	optional arguments:
+	  -e, --end-at POSITION
+	                 output just a part of the video, ending at specified moment
+	                 in the input
 	  -h, --help     show this help and exit
+	  -s, --start-at POSITION
+	                 output just a part of the video, starting at the specified
+	                 moment in the input
 	  -V, --version  output version information and exit
 	END
 }
@@ -45,10 +51,22 @@ join_words() {
 	echo
 }
 
+declare -a ffmpeg_opt_ss=()
+declare -a ffmpeg_opt_to=()
 while :; do
 	case "$1" in
 		-h|--help)
 			print_help && exit
+			;;
+		-e|--end-at)
+			[[ $# -lt 2 ]] && usage_error "argument $1: expected one argument"
+			ffmpeg_opt_ss=('-to' "$2")
+			shift
+			;;
+		-s|--start-at)
+			[[ $# -lt 2 ]] && usage_error "argument $1: expected one argument"
+			ffmpeg_opt_to=('-ss' "$2")
+			shift
 			;;
 		-V|--version)
 			echo $VERSION && exit
@@ -75,5 +93,11 @@ if (( ${#missing_args[@]} != 0 )); then
 fi
 
 ffmpeg -i "$INPUT_FILE" -sn \
--filter:v "subtitles='$SUBS_FILE:force_style=BorderStyle=3,Fontsize=28'" \
--c:a copy -c:v libx264 -crf 24 -preset veryfast "$OUTPUT_FILE"
+	-filter:v "subtitles='$SUBS_FILE:force_style=BorderStyle=3,Fontsize=28'" \
+        -c:a copy \
+	-c:v libx264 \
+	-crf 24 \
+	-preset veryfast \
+	"${ffmpeg_opt_ss[@]}" \
+	"${ffmpeg_opt_to[@]}" \
+	"$OUTPUT_FILE"
