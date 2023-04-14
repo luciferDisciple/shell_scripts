@@ -4,6 +4,7 @@
 * [gitignore](#gitignore): Get .gitignore for a language/framework from github/gitignore.
 * [logcmd](#logcmd): Execute shell command. Save transcript.
 * [overlaysubs](#overlaysubs): Add subtitles onto the video stream.
+* [video2gif](#video2gif): Convert a video file to a GIF file.
 * [install.sh](#installsh): Install selected scripts for the user.
 
 ## Installation
@@ -110,6 +111,28 @@ optional arguments:
   -s, --start-at POSITION
                  output just a part of the video, starting at the specified
                  moment in the input
+  -V, --version  output version information and exit
+$
+```
+
+## video2gif
+
+```
+$ video2gif -h
+usage: video2gif [-h] VIDEO_FILE
+
+Convert a video file to a GIF. Resulting GIF will have framerate of 12
+FPS and the same base name as VIDEO_FILE, but with ".gif" extension.
+
+positional arguments:
+  VIDEO_FILE    a path to the video file you want to convert
+
+optional arguments:
+  -f, --framerate FPS
+                 set the animation framerate of the GIF
+  -h, --help     display this help and exit
+  -y, --height HEIGHT
+                 set the height of the GIF, keep aspect ratio
   -V, --version  output version information and exit
 $
 ```
