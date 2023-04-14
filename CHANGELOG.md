@@ -1,5 +1,12 @@
 # Changelog
 
+## video2gif [unreleased]
+### Added
+- a message telling the path to the created GIF
+
+### Fixed
+- some `-f` and `-x` options missing in "usage" text (cli syntax)
+
 ## video2gif 1.1.0 - 2023-04-14
 
 ### Added

@@ -119,7 +119,7 @@ $
 
 ```
 $ video2gif -h
-usage: video2gif [-h] VIDEO_FILE
+usage: video2gif [-f FPS] [-h] [-x HEIGHT] VIDEO_FILE
 
 Convert a video file to a GIF. Resulting GIF will have framerate of 12
 FPS and the same base name as VIDEO_FILE, but with ".gif" extension.
@@ -129,10 +129,11 @@ positional arguments:
 
 optional arguments:
   -f, --framerate FPS
-                 set the animation framerate of the GIF
+                 set the animation framerate of the GIF (default: 12)
   -h, --help     display this help and exit
   -y, --height HEIGHT
                  set the height of the GIF, keep aspect ratio
+                 (default: same as video)
   -V, --version  output version information and exit
 $
 ```

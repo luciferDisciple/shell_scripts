@@ -4,7 +4,7 @@ PROG=video2gif
 VERSION=1.1.0
 
 usage() {
-	echo >&2 "usage: $PROG [-h] VIDEO_FILE"
+	echo >&2 "usage: $PROG [-f FPS] [-h] [-x HEIGHT] VIDEO_FILE"
 }
 
 print_help() {
@@ -23,7 +23,7 @@ print_help() {
 	  -h, --help     display this help and exit
 	  -y, --height HEIGHT
 	                 set the height of the GIF, keep aspect ratio
-			 (default: same as video)
+	                 (default: same as video)
 	  -V, --version  output version information and exit
 	END
 }
@@ -38,6 +38,11 @@ usage_error() {
 	local message="$@"
 	usage
 	error "$message"
+}
+
+info() {
+	local message="$@"
+	echo "$PROG: $message" >&2
 }
 
 scale_filter=
@@ -98,4 +103,5 @@ gif_filter+='[a] palettegen [p];[b][p] paletteuse'
 
 ffmpeg -i "$video_file" \
        -filter_complex "$gif_filter" \
-       "$gif_file"
+       "$gif_file" \
+&& info "success: GIF saved to '$gif_file'"
