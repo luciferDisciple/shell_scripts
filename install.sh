@@ -58,6 +58,10 @@ script_install() {
 	cp -f "$src" "$dst" || error "failed to copy '$src' to '$dst'"
 }
 
+ensure_executables_dir_exists() {
+	mkdir -p "$EXECUTABLES_DIR"
+}
+
 while :; do
 	case "$1" in
 		-h|--help)
@@ -75,6 +79,7 @@ while :; do
 	esac
 	shift
 done
+ensure_executables_dir_exists
 declare -a targets=("$@")
 for target in "${targets[@]}"; do
 	if [[ "$target" == 'all' ]]; then
